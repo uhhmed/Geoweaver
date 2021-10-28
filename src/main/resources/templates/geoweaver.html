@@ -6,6 +6,8 @@
 		<title>Geoweaver</title>
 		
 		<link rel="icon" href="../img/favicon.ico" />
+
+		<link href="../css/all.min.css" rel="stylesheet" />
 		
 		<link rel="stylesheet" href="../css/jquery.dataTables.min.css" />
 		
@@ -16,8 +18,6 @@
    		<link href="../css/bootstrap-colorpicker.min.css" rel="stylesheet" />
 		
 		<!-- <link href="../css/font-awesome.css" rel="stylesheet" /> -->
-		
-		<link href="../css/all.min.css" rel="stylesheet" />
 		
 		<link href="../css/workspace.css" rel="stylesheet" />
 		
@@ -64,14 +64,6 @@
 		
 		<script type="text/javascript" src="../js/imageviewer.min.js"></script>
 		
-		<!-- <script src="https://danielmg.org/assets/demo/uploader/js/jquery.dm-uploader.min.js?v=v10"></script>
-	    
-	    <script src="https://danielmg.org/assets/demo/uploader/js/ui-main.js?v=v10"></script>
-		    
-	    <script src="https://danielmg.org/assets/demo/uploader/js/ui-multiple.js?v=v10"></script>
-	  	
-	    <script src="https://danielmg.org/assets/demo/uploader/js/configs/no-queue.js?v=v10"></script> -->
-	    
 	    <script type="text/javascript" src="../js/jquery.dm-uploader.min.js"></script>
 	    
 	    <script type="text/javascript" src="../js/ui-main.js"></script>
@@ -112,8 +104,8 @@
 			<div class="row"  style="height: 50px; margin: 0; padding: 0; background-color:black;">
 				
 				<div data-intro="Top Bar contains button for managing the host/process/workflow in GeoWeaver database" style="overflow: auto;">
-				  <a  style="float: left; width: 100px;text-align: center; transition: all 0.3s ease;background-color:grey " href="javascript:void(0)">
-				  	<img src="../img/header.png" width="100px" height="50px" />
+				  <a  style="float: left; width: 120px;text-align: center; transition: all 0.3s ease;background-color:silver; " href="javascript:void(0)">
+				  	<img src="../img/header.png" width="120px" height="50px" />
 				  </a>
 				  <!-- <div style="float: left; width: 100px;text-align: center;margin-top: 9px;padding-top: 5px;transition: all 0.3s ease;color: white;font-size: 16px;" >
 				  	Geoweaver
@@ -121,7 +113,7 @@
 				  <a id="toolbar-search"  
 				  data-toggle="tooltip" title="Search Process/Workflow/Hosts"
 				  style="float: left; width: 80px;text-align: center;margin-top: 9px;padding-top: 5px;transition: all 0.3s ease;color: white;font-size: 16px;" href="javascript:void(0)">
-				  	<i class="fa fa-search" alt="search" > Search</i>
+				  	<i class="fa fa-search toptoolbarbtn" style="font-family:Verdana, Geneva, Tahoma, sans-serif" alt="search" > Search</i>
 				  </a>
 				  <a id="toolbar-add" 
 				  data-toggle="tooltip" title="New Host/Process/Workflow"
@@ -157,9 +149,14 @@
 				  	<i class="fa fa-info" alt="info" id="toolbar-info"> Info</i>
 				  </a>
 
-				  <a style="float: right; width: 80px;text-align: center;margin-top: 9px;padding-top: 5px;transition: all 0.3s ease;color: white;font-size: 16px;" href="javascript:GW.user.login_dialog()">
-					<i class="fa fa-user" alt="info" id="toolbar-info"> Login</i>
+				  <a style="float: right; width: 100px;text-align: center; font-weight: bold; margin-top: 9px;padding-top: 5px;transition: all 0.3s ease;color: yellow;font-size: 16px;" href="javascript:GW.user.logindialog()" id="toolbar-loginout-a">
+					Login
 				  </a>
+				  
+				  <a style="float: right; width: 120px;visibility: hidden; text-align: right;margin-top: 9px;padding-top: 5px;transition: all 0.3s ease;color: white;font-size: 16px;" href="javascript:GW.user.profiledialog()" id="toolbar-profile-a">
+					<i class="fa fa-user" alt="info" id="toolbar-profile"> Welcome</i>
+				  </a>
+
 				</div>
 				
 				
@@ -250,13 +247,13 @@
 									<div class="col col-md-3">
 										<h3 style="color:black;font-weight:bold;font-size:25px;font-family: 'Poppins', sans-serif" >Host</h3>
 										<div class="list-group" style="width: 100%">
-											<button type="button" class="list-group-item list-group-item-action " onClick="GW.host.newDialog()" >SSH Server</button>
+											<button type="button" class="list-group-item list-group-item-action " onClick="GW.host.newDialog('ssh')" >SSH Server</button>
 											
-											<button type="button" class="list-group-item list-group-item-action " onClick="GW.host.newDialog()" >Jupyter Notebook</button>
+											<button type="button" class="list-group-item list-group-item-action " onClick="GW.host.newDialog('jupyter')" >Jupyter Notebook</button>
 											
-											<button type="button" class="list-group-item list-group-item-action " onClick="GW.host.newDialog()" >Jupyter Hub</button>
+											<button type="button" class="list-group-item list-group-item-action " onClick="GW.host.newDialog('jupyterhub')" >Jupyter Hub</button>
 											
-											<button type="button" class="list-group-item list-group-item-action "  onClick="GW.host.newDialog()">Google Earth Engine</button>
+											<button type="button" class="list-group-item list-group-item-action "  onClick="GW.host.newDialog('gee')">Google Earth Engine</button>
 
 										</div>
 										
@@ -270,10 +267,10 @@
 										
 										<div class="list-group" style="width: 100%">
 											
-											<button onclick="GW.process.newDialog()" id="shell" type="button" class="list-group-item list-group-item-action " >Shell</button>
-											<button onclick="GW.process.newDialog()" type="button" class="list-group-item list-group-item-action " >Notebook</button>
-											<button onclick="GW.process.newDialog()"type="button" class="list-group-item list-group-item-action " >Built-in Process</button>
-											<button onclick="GW.process.newDialog()" type="button" class="list-group-item list-group-item-action " >Python</button> 
+											<button onclick="GW.process.newDialog('shell')" id="shell" type="button" class="list-group-item list-group-item-action " >Shell</button>
+											<button onclick="GW.process.newDialog('jupyter')" type="button" class="list-group-item list-group-item-action " >Notebook</button>
+											<button onclick="GW.process.newDialog('builtin')" type="button" class="list-group-item list-group-item-action " >Built-in Process</button>
+											<button onclick="GW.process.newDialog('python')" type="button" class="list-group-item list-group-item-action " >Python</button> 
 											
 										</div>
 									</div>
@@ -348,18 +345,20 @@
 										<p>Shell scripts can be directly created, saved, executed, and monitored in Geoweaver. Users can execute the shell scripts on remote servers or the localhost server which Geoweaver is hosted. </p>
 											
 										<h3>NoteBook</h3>
-										<p> A process runner is responsible for binding via SSH channels and executing processes
-										on assigned platforms. The execution needs to first transfer the latest code to the remote servers and
-										trigger the code by sending commands. The process monitor can listen to all the events occurred during
-										the execution and report the real-time status. Once the execution is over, the result messages together
-										with the inputs and executed code shall be saved into the database for later inquiry.</p>
+										<p> Geoweaver supports to run Jupyter notebooks using the nbconvert command. The notebook and its logout are recorded in the database. </p>
 										
 										
 										<h3>Build In Process</h3>
-										<p> In Built In Process we can create a process with different names. We can choose a process from ShowResultMap and DownloadData. We can the previously creeated built in process and save them and execute.</p>
+										<p>To help people with limited programming skills, we are developing a set of built-in processes which have fixed program code and expose only input parameters to users.
+											These processes make Geoweaver a powerful AI graphical user interface for the diverse user groups to learn and experiment their AI workflows without coding. 
+											Most buil-in processes in Geoweaver are developed based on the existing AI python ecosystem like Keras and Scikit-learn. 
+											This section is under intensive development right and the first stable version expects users to create a full-stack AI workflow without writing a single line of code.  
+										</p>
 										
 										<h3>Python</h3>
-										<p>Computing with Python can be used as a course book for absolute beginners on Python with guidance and support from a teacher. It is also suitable as a self study book for more advanced students with some programming knowledge and an interest in the mathematical or scientific disciplines. </p>
+										<p>Python is one of the most popular AI programming langauge and most AI-related packages reside in Python. 
+											Geoweaver supports Python coding and scripting on top of multiple servers while reserving and maintaining the code in one database. 
+										All the historical runs are recorded and served in Geoweaver to prevent future duplicated attempts and significantly improve the reproducibility and reusability of AI programs. </p>
 												
 										<h2>Workflow</h2>
 													
@@ -388,21 +387,21 @@
 							  </div>
 						</div>
 						 
-						<div id="main-process-info" class="tabcontent" style="height:100%; left:0; margin:0; padding: 0;padding-bottom:0;">
-							  <div id="main-process-content" style="height:100%; overflow-y: scroll; padding: 10px;">
+						<div id="main-process-info" class="tabcontent" style="height:100%; left:0; margin:0; padding: 0;padding-bottom:25px;">
+							  <div id="main-process-content" style="height:100%;  padding: 10px;">
 							  	<h2 style="color:black">Please select a process on the right panel!</h2>
 							  </div>
 						</div>
 						
 						<div id="main-workflow-info" class="tabcontent" style="height:100%; left:0; margin:0; padding: 0;padding-bottom:25px;">
-							  <div id="main-workflow-content" style="height:100%; overflow-y: scroll; padding: 10px;">
+							  <div id="main-workflow-content" style="height:100%; padding: 10px;">
 							  	<h2 style="color:black">Please select a workflow on the right panel!</h2>
 							  </div>
 						</div>
 							
 						<div id="main-console" class="tabcontent" style="height:100%; padding:0; left:0; margin:0; padding-bottom:25px;">
 							<div id="main-console-content" style="height:100%; overflow-y: scroll; margin:0; padding: 10px;">
-							  <h2 style="color:black">Logging</h2>
+							  <h2 style="color:black">Logging <button class="btn btn-primary pull-right" onclick="GW.ssh.clearMain();">Clear</button></h2>
 							  <div id="log-window">
 							  	
 							  </div>
@@ -413,16 +412,18 @@
 							
 							<!-- status indicator right bottom -->
 							
-							<div id="workspace_status_indicator" style="position: absolute; bottom: 10px; right: 10px; height: 50px; z-index:1;">
-					    	  		<span id="current_workflow_name" class="invisible">Current Workflow: </span>
-						      	<i class="fa fa-spinner fa-spin invisible" id="running_spinner" style="font-size:30px;color:red"></i>
+							<div id="workspace_status_indicator" style="position: absolute; bottom: 20px; right: 20px; height: 50px; z-index:1;">
+					    	  		<!--<span id="current_workflow_name" class="invisible">Current Workflow: </span>-->
+									  
+									  
+									  <h2><i class="fa fa-spinner fa-spin invisible" id="running_spinner" style="font-size:20px;color:red"></i><span id="current_workflow_na" class="badge badge-info" style="font-size: 20px;" ></span></h2>
 						    
 						    </div>
 						    
 						    <!-- progress right bottom, above the status indicator -->
 							
 							<div id="workspace_progress_indicator" class="visible" style="position: absolute; max-height: 350px; top: 80px; right: 10px; width:100px; z-index:1; overflow-y: scroll;">
-							
+								
 						    	
 						    </div>
 						    
@@ -431,18 +432,18 @@
 							  	<i style="text-align:center; padding:0; margin-top:10px; ">Workflow Toolbar</i>
 							  
 							    <input id="hidden-file-upload" type="file" title="Hidden File Upload" class="btn fa fa-alien" style="color:gray; margin:0;margin-top:5px;  padding:0;" alt="Hidden File Upload" />
-							      
-							    <i id="test-jsframe" title="js frame" class="btn fa fa-alien fa-2x" 
-							    	style="color:gray; padding:0; margin:0; margin-top:5px; display: block;text-align: center;transition: all 0.3s ease;" alt="test jsframe graph" ></i>
+							    
+								<i id="new-workflow" title="new graph" class="btn fa fa-file fa-2x" 
+							    	style="color:gray; padding:0; margin:0;margin-top:5px; display: block;text-align: center;transition: all 0.3s ease;" alt="new workflow" ></i>
+							    
+								<i id="add-workflow" title="create a new workflow" class="btn fa fa-plus-square fa-2x" 
+							    	style="color:gray; padding:0; margin:0;margin-top:5px; display: block;text-align: center;transition: all 0.3s ease;" alt="create new workflow" ></i>
 
-								<i id="new-workflow" title="new graph" class="btn fa fa-plus-square fa-2x" 
-							    	style="color:gray; padding:0; margin:0;margin-top:5px; display: block;text-align: center;transition: all 0.3s ease;" alt="upload graph" ></i>
-							      
 							    <i id="upload-input" title="upload graph" class="btn fa fa-upload fa-2x" 
-							    	style="color:gray; padding:0; margin:0;margin-top:5px; display: block;text-align: center;transition: all 0.3s ease;" alt="upload graph" ></i>
+							    	style="color:gray; padding:0; margin:0;margin-top:5px; display: block;text-align: center;transition: all 0.3s ease;" alt="upload workflow" ></i>
 							      
 							    <i id="download-input" title="download graph" class="btn fa fa-download fa-2x" 
-							    	style="color:gray; padding:0; margin:0;margin-top:5px; display: block;text-align: center;transition: all 0.3s ease;" alt="download graph" ></i>
+							    	style="color:gray; padding:0; margin:0;margin-top:5px; display: block;text-align: center;transition: all 0.3s ease;" alt="download workflow" ></i>
 							      
 							    <i id="save-workflow" title="save workflow" class="btn fa fa-save fa-2x" 
 							    	style="color:gray; padding:0; margin:0;margin-top:5px; display: block;text-align: center;transition: all 0.3s ease;" alt="save workflow"></i> 
@@ -484,7 +485,7 @@
 					                  </a>
 					                </li> -->
 					
-					                <li data-intro="Hosts are computing platforms, e.g., a laptop, a Linux server, a Jupyter Notebook server, a JupyterHub, Googel Earth Engine. You can add and manage multiple hosts in one place. ">
+					                <li data-intro="Hosts are computing platforms, e.g., a laptop, a Linux server, a Jupyter Notebook server, a JupyterHub, Google Earth Engine. You can add and manage multiple hosts in one place. ">
 					                  <a href="javascript:void(0)"><i class="fa fa-server fa-lg" data-toggle="tooltip" title="Add new host"></i> Hosts <i class="fa fa-plus" id="newhost" onClick="host()"></i> <span style="background-color:balack" data-toggle="collapse" data-target="#hosts" class="arrow collapsed "></span></a>  <!-- add active to see color side of host -->
 
 					                </li>
@@ -545,7 +546,7 @@
 					
 					
 					                <li data-intro="Workflows are linked pipes of a number of processes. You can easily turn complicated scientific experiments into several worflows and execute and manage them from here. ">
-					                  <a href="javascript:void(0)"><i class="fa fa-cogs fa-lg"  data-toggle="tooltip" title="Add new workflow"></i> Workflows <i class="fa fa-plus" id="newworkflow"></i> <span data-toggle="collapse" data-target="#workflows" class="arrow collapsed"></span></a>
+					                  <a href="javascript:void(0)"><i class="fa fa-cogs fa-lg"  data-toggle="tooltip" title="Add new workflow"></i> Workflows <!--<i class="fa fa-plus" id="newworkflow"></i>--> <span data-toggle="collapse" data-target="#workflows" class="arrow collapsed"></span></a>
 					                </li>  
 					                <ul  class="sub-menu collapse" id="workflows">
 					                  
@@ -588,9 +589,8 @@
 				
 			</div>
 			
-			<!-- The actual snackbar -->
-			<div id="snackbar">Some message..</div>
-		
+			<!-- The actual snackbar showing the saved/code update message -->
+			<div id="snackbar" style="z-index: 100;">Some message..</div>
 		</div>
 		
 		<script src="../js/es5-shim.min.js"></script>
@@ -623,47 +623,6 @@
 	    <script src="../js/gw.menu.js"></script>
 		<script src="../js/gw.home.js"></script>
 	    <script src="../js/gw.main.js"></script>
-	    
-	      <script>
-	    
-	    	function switchTab(ele, name){
-	    		
-	    	  console.log("Turn on the tab " + name)
-	    		
-	    	  var i, tabcontent, tablinks;
-			  tabcontent = document.getElementsByClassName("tabcontent");
-			  for (i = 0; i < tabcontent.length; i++) {
-			    tabcontent[i].style.display = "none";
-			  }
-			  tablinks = document.getElementsByClassName("tablinks");
-			  for (i = 0; i < tablinks.length; i++) {
-			    tablinks[i].className = tablinks[i].className.replace(" active", "");
-			  }
-			  document.getElementById(name).style.display = "block";
-			  ele.className += " active";
-
-			  if(name=="main-dashboard"){
-
-				GW.board.refresh();
-
-			  }
-	    		
-	    	}
-	    	
-			function openCity(evt, name) {
-			  switchTab(evt.currentTarget, name);
-			}
-			
-			$(document).ready(function(){
-				console.log("trigger click event");
-				//$("main-content-tab").trigger("click")
-				switchTab(document.getElementById("main-general-tab"), "main-general");
-				
-			});
-			
-			
-		
-		</script>
 	    
 	</body>
 

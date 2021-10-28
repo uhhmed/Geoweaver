@@ -400,7 +400,6 @@ public class GoogleEarthController {
 			e.printStackTrace();
 			
 		}
-
 		return newheaders;
 		
 	}

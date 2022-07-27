@@ -1517,6 +1517,15 @@ GW.process = {
 					<button class="tablinks-process" id="main-process-info-code-tab" onclick="GW.process.openCity(event, 'main-process-info-code')">Code</button>
 					<button class="tablinks-process" id="main-process-info-history-tab" onclick="GW.process.openCity(event, 'main-process-info-history'); GW.process.history('`+
 					process_id+`', '` + process_name+`')">History</button>
+
+					<button class="btn pull-right" onclick="" >
+						<i id="upload-process-input" title="import process" class="glyphicon glyphicon-upload " alt="import process" ></i>
+					</button>
+					<button class="btn pull-right" onclick="GW.process.downloadProcess('`+ process_id + `')" >
+						<i id="download-process-input" title="export process" class="glyphicon glyphicon-download " alt="export process" ></i>
+					</button>
+	
+
 					<button class="btn pull-right" onclick="GW.editor.switchFullScreen()" ><i class="glyphicon glyphicon-fullscreen"></i></button>
 					<button class="btn pull-right" onclick="GW.process.runProcess('`+
 					process_id+`', '`+process_name+`', '`+code_type+
@@ -1586,6 +1595,98 @@ GW.process = {
 			GW.process.activateResizer();
 			
 		},
+
+		downloadProcess: function (processid) {
+
+			// handle download data
+			d3.select("#download-process-input").on("click", function () {
+	
+				if (processid != null) {
+	
+					var content = `<div class="modal-body">
+					
+						<div class="row">
+					
+							<div class="col-md-12">
+	
+								<div class="form-check">
+									<label>
+										<input class="form-check-input" type="radio" name="processdownloadoption" value="processcode">
+										<i>Process Code Only</i>
+									</label>
+								</div>
+								<div class="form-check">
+									<label>
+										<input class="form-check-input" type="radio" name="processdownloadoption" value="processcodehistory">
+										<i>Process Code and History (Recommended)</i>
+									</label>
+								</div>
+							</div>
+					
+						</div>
+					
+					</div>
+	
+					<div class="modal-footer">
+	
+						<button type="button" id="process-download-confirm-btn" class="btn btn-outline-secondary">Confirm</button>
+					
+						<button type="button" id="process-download-cancel-btn" class="btn btn-outline-secondary">Cancel</button>
+					
+					</div>`;
+	
+	
+					GW.workspace.jsFrame = GW.process.createJSFrameDialog(620, 340, content, "Process Exportation Options");
+	
+					$("#process-download-confirm-btn").click(function () {
+	
+						let exportoption = $("input[name='processdownloadoption']:checked").val();
+	
+						$.ajax({
+	
+							url: "downloadprocess",
+	
+							method: "POST",
+	
+							data: "id=" + processid + "&option=" + exportoption
+	
+						}).done(function (msg) {
+	
+							if (msg.startsWith("download/temp/")) {
+	
+								let zipurl = "../" + msg;
+	
+								window.open(zipurl)
+	
+								GW.workspace.jsFrame.closeFrame();
+	
+							} else {
+	
+								alert("Failed to export process.");
+	
+							}
+	
+						}).fail(function (msg) {
+	
+							alert("Fail to download process: " + msg);
+	
+						});
+	
+					});
+	
+					$("#process-download-cancel-btn").click(function () {
+						GW.workspace.jsFrame.closeFrame();
+					});
+	
+				} else {
+					alert("No process in the workspace to download.");
+				}
+	
+			});
+	
+		},
+	
+	
 		
 		openCity: function(evt, name){
 

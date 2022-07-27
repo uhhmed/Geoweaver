@@ -395,6 +395,31 @@ public class GeoweaverController {
 		
 	}
 
+	@RequestMapping(value = "/downloadprocess", method = RequestMethod.POST)
+    public @ResponseBody String downloadprocess(ModelMap model, WebRequest request){
+		
+		String resp = null;
+		
+		try {
+			
+			String option = request.getParameter("option");
+			
+			String pid = request.getParameter("id");
+			
+			resp = pt.download(pid, option);
+			
+		}catch(Exception e) {
+			
+			e.printStackTrace();
+			
+			throw new RuntimeException("failed " + e.getLocalizedMessage());
+			
+		}
+		
+		return resp;
+		
+	}
+
 	@RequestMapping(value = "/downloadworkflow", method = RequestMethod.POST)
     public @ResponseBody String downloadworkflow(ModelMap model, WebRequest request){
 		

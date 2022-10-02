@@ -33,7 +33,7 @@
       "request": "launch",
       "mainClass": "com.gw.GeoweaverCLI",
       "projectName": "geoweaver",
-      "args": "run workflow -importMode --add-hosts 100001 --add-environments dm7kv4 --workflowfile /Users/uhhmed/Downloads/imported_workflow.zip --add-passwords 123456"
+      "args": "run workflow -importMode --add-hosts 100001 --add-environments dm7kv4 --workflowfile /Users/uhhmed/Downloads/4aezo41h4d0435yyrmi5.zip --add-passwords 123456"
     },
     {
       "type": "java",

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 
-import com.amazonaws.services.stepfunctions.model.ExecutionStatus;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gw.jpa.History;
 import com.gw.ssh.SSHSessionImpl;
 import com.gw.tools.HistoryTool;
@@ -14,6 +14,11 @@ import com.gw.utils.BaseTool;
 import com.gw.utils.BeanTool;
 import com.gw.utils.RandomString;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -64,35 +69,52 @@ public class RunWorkflowCommand  implements Runnable {
     Args args;
 
     
-    // @Parameters(index = "0", description = "workflow id to run")
-    // String workflowId;
-
-    // @Option(names = { "-f", "--workflowfile" }, description = "workflow package or path to workflow.json to run")
-    // String workflowZipOrPathToJson;
-
-    // @Option(names = { "-h", "--hosts" }, description = "hosts to run on")
-    // String[] hostStrings;
-
-    // @Option(names = { "-e", "--environments" }, description = "environments to run on")
-    // String[] envs;
-
-    // @Option(names = { "-p", "--passwords" }, description = "passwords to the target hosts")
-    // String[] passes;
 
     public void run() {
         
-        if (args.ImportedArgs != null) 
+        WorkflowTool wt = BeanTool.getBean(WorkflowTool.class);
+        HistoryTool ht = BeanTool.getBean(HistoryTool.class);
+        BaseTool bt = BeanTool.getBean(BaseTool.class);
+        String historyId = new RandomString(18).nextString();
+
+        if (args.ImportedArgs != null) {
         
             System.out.println("workflow zip or path to json: " + args.ImportedArgs.workflowZipOrPathToJson);
 
+            Path toCopy = new File(args.ImportedArgs.workflowZipOrPathToJson).toPath();
+            Path target = new File(bt.getFileTransferFolder() + toCopy.getFileName()).toPath();
+            
+            try {
+                Files.copy(toCopy, target, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Copy path: " + toCopy);
+                System.out.println("target path: " + target);
+
+                String resp = wt.precheck(target.getFileName().toString());
+                System.out.println("Response of /precheck: "+ resp);
+    
+                ObjectMapper mapper = new ObjectMapper();
+                Map<String, String> map = mapper.readValue(resp, Map.class);
+                
+                
+                String wid = String.valueOf(map.get("id"));
+
+                resp = wt.saveWorkflowFromFolder(wid, toCopy.getFileName().toString());
+
+                System.out.println("saved workflow ID: " + wid);
+
+                String response = wt.execute(historyId, wid, "one", args.ImportedArgs.hostStrings, 
+                args.ImportedArgs.passes, args.ImportedArgs.envs, "xxxxxxxxxx");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+        }
         
         if (args.ExistingArgs != null) {
-            System.out.println(String.format("Running workflow %s", args.ExistingArgs.workflowId));
             
+            System.out.println(String.format("Running workflow %s", args.ExistingArgs.workflowId));
 
-            WorkflowTool wt = BeanTool.getBean(WorkflowTool.class);
-
-            String historyId = new RandomString(18).nextString();
 
             if(BaseTool.isNull(args.ExistingArgs.envs)) args.ExistingArgs.envs = new String[]{"default_option"};
 
@@ -104,8 +126,6 @@ public class RunWorkflowCommand  implements Runnable {
             System.out.println(String.format("The workflow has been kicked off.\nHistory Id: %s", historyId));
 
             System.out.println("Waiting for it to finish");
-
-            HistoryTool ht = BeanTool.getBean(HistoryTool.class);
 
             History hist = ht.getHistoryById(historyId);;
 

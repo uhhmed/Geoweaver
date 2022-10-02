@@ -21,11 +21,19 @@
     },
     {
       "type": "java",
-      "name": "Launch Run Workflow",
+      "name": "Launch Run Existing Workflow",
       "request": "launch",
       "mainClass": "com.gw.GeoweaverCLI",
       "projectName": "geoweaver",
-      "args": "run workflow -h 100001 -e 23geik 29k6vmj3n94y128j4aab -p xxx"
+      "args": "run workflow -existingMode -h 100001 -e dm7kv4 zyts2op8mf2lftlhf6vq -p 123456"
+    },
+    {
+      "type": "java",
+      "name": "Launch Import & Run Workflow",
+      "request": "launch",
+      "mainClass": "com.gw.GeoweaverCLI",
+      "projectName": "geoweaver",
+      "args": "run workflow -importMode --add-hosts 100001 --add-environments dm7kv4 --workflowfile /Users/uhhmed/Downloads/imported_workflow.zip --add-passwords 123456"
     },
     {
       "type": "java",
